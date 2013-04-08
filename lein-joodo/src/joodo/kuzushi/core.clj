@@ -28,8 +28,14 @@
       options
       (usage (:*errors options)))))
 
+(defn- resolve-command-aliases [command]
+  (cond
+    (= command "start") "server"
+    :else command))
+
 (defn- load-command [command]
-  (let [command-ns-sym (symbol (str *lib-name* ".kuzushi.commands." command))
+  (let [command (resolve-command-aliases command)
+        command-ns-sym (symbol (str *lib-name* ".kuzushi.commands." command))
         parse-fn (load-var command-ns-sym 'parse-args)
         exec-fn (load-var command-ns-sym 'execute)]
     (when-not (or parse-fn exec-fn)

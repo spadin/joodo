@@ -33,4 +33,11 @@
     (should= "help" (:command (parse-args "-h"))))
   )
 
+(describe "resolve-command-aliases"
+  (it "should resolve start to server"
+    (should= "server" (#'joodo.kuzushi.core/resolve-command-aliases "start")))
+
+  (it "should resolve help as help"
+    (should= "help" (#'joodo.kuzushi.core/resolve-command-aliases "help"))))
+
 (run-specs)
